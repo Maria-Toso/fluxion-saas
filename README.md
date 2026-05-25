@@ -64,5 +64,3 @@ Este projeto já inclui boas práticas, mas nenhum app é "100% seguro". Antes d
 - monitore logs
 - faça auditoria externa
 =======
-# fluxion-saas
->>>>>>> 66388ba1f05e11d4a753f732fd09aae067f7832a
