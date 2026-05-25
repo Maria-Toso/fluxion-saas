@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Metas - Fluxion{% endblock %}
+
+{% block content %}
+
+<div class="mb-10">
+    <h1 class="text-4xl font-extrabold">Metas financeiras</h1>
+    <p class="text-slate-400 mt-2">Acompanhe objetivos financeiros da organização.</p>
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+    <div class="glass-card rounded-2xl p-6">
+        <h2 class="text-xl font-bold mb-5">Nova meta</h2>
+
+        <form method="POST" class="space-y-4">
+            {{ form.hidden_tag() }}
+            {{ form.titulo(class="input-primary", placeholder="Título") }}
+            {{ form.valor_alvo(class="input-primary", placeholder="Valor alvo") }}
+            {{ form.valor_atual(class="input-primary", placeholder="Valor atual") }}
+            {{ form.prazo(class="input-primary") }}
+            {{ form.submit(class="btn-primary w-full") }}
+        </form>
+    </div>
+
+    <div class="xl:col-span-2 glass-card rounded-2xl p-6">
+        <h2 class="text-xl font-bold mb-5">Suas metas</h2>
+
+        {% if metas %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% for meta in metas %}
+                    <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5">
+                        <div class="flex justify-between gap-4">
+                            <div>
+                                <h3 class="font-bold">{{ meta.titulo }}</h3>
+                                <p class="text-sm text-slate-400 mt-1">
+                                    R$ {{ "%.2f"|format(meta.valor_atual) }} de R$ {{ "%.2f"|format(meta.valor_alvo) }}
+                                </p>
+                            </div>
+
+                            <form method="POST" action="{{ url_for('metas.excluir', id=meta.id) }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button class="btn-danger" type="submit">Excluir</button>
+                            </form>
+                        </div>
+
+                        <div class="h-3 bg-slate-800 rounded-full mt-5 overflow-hidden">
+                            <div class="h-full bg-emerald-500" style="width: {{ meta.progresso }}%;"></div>
+                        </div>
+
+                        <p class="text-sm text-slate-400 mt-3">{{ meta.progresso }}% concluído</p>
+
+                        {% if meta.prazo %}
+                            <p class="text-xs text-slate-500 mt-1">Prazo: {{ meta.prazo.strftime('%d/%m/%Y') }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-slate-400">Nenhuma meta cadastrada.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

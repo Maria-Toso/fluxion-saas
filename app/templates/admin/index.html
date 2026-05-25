@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin - Fluxion{% endblock %}
+
+{% block content %}
+
+<div class="mb-10">
+    <h1 class="text-4xl font-extrabold">Admin</h1>
+    <p class="text-slate-400 mt-2">Controle da organização, plano e auditoria.</p>
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
+
+    <div class="glass-card rounded-2xl p-6">
+        <p class="text-slate-400 text-sm">Organização</p>
+        <h2 class="text-2xl font-extrabold mt-2">{{ organizacao.nome }}</h2>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6">
+        <p class="text-slate-400 text-sm">Plano</p>
+        <h2 class="text-2xl font-extrabold mt-2 text-emerald-400">{{ organizacao.plano }}</h2>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6">
+        <p class="text-slate-400 text-sm">Status</p>
+        <h2 class="text-2xl font-extrabold mt-2">{{ organizacao.status }}</h2>
+    </div>
+
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+    <div class="glass-card rounded-2xl p-6">
+        <h2 class="text-xl font-bold mb-5">Usuários</h2>
+
+        <div class="space-y-3">
+            {% for usuario in usuarios %}
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                    <p class="font-semibold">{{ usuario.nome }}</p>
+                    <p class="text-sm text-slate-400">{{ usuario.email }}</p>
+                    <p class="text-xs text-emerald-400 uppercase tracking-wide mt-2">{{ usuario.role }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6">
+        <h2 class="text-xl font-bold mb-5">Auditoria</h2>
+
+        <div class="space-y-3 max-h-[560px] overflow-y-auto pr-2">
+            {% for log in logs %}
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4">
+                    <p class="font-semibold">{{ log.acao }}</p>
+                    <p class="text-sm text-slate-400">{{ log.detalhes or 'Sem detalhes' }}</p>
+                    <p class="text-xs text-slate-500 mt-2">{{ log.criado_em.strftime('%d/%m/%Y %H:%M') }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

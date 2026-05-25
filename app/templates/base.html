@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Fluxion SaaS{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="bg-slate-950 text-white">
+
+{% if current_user.is_authenticated %}
+
+<div class="flex min-h-screen">
+
+    <aside class="w-72 bg-slate-900/90 border-r border-slate-800 p-6 fixed h-screen">
+
+        <div class="mb-10">
+            <h1 class="text-3xl font-extrabold tracking-tight">
+                Fluxion
+            </h1>
+            <p class="text-slate-400 text-sm mt-1">
+                SaaS Finance Platform
+            </p>
+        </div>
+
+        <nav class="space-y-2">
+
+            {% set nav_items = [
+                ('dashboard.home', 'Dashboard'),
+                ('transacoes.listar', 'Transações'),
+                ('categorias.listar', 'Categorias'),
+                ('metas.listar', 'Metas'),
+                ('relatorios.index', 'Relatórios'),
+                ('admin.index', 'Admin')
+            ] %}
+
+            {% for endpoint, label in nav_items %}
+                {% if label != 'Admin' or current_user.role in ['owner', 'admin'] %}
+                    <a href="{{ url_for(endpoint) }}"
+                       class="block px-4 py-3 rounded-xl transition {% if request.endpoint == endpoint or request.endpoint.split('.')[0] == endpoint.split('.')[0] %}bg-emerald-500/10 text-emerald-400{% else %}hover:bg-slate-800 text-slate-300{% endif %}">
+                        {{ label }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+
+        </nav>
+
+        <div class="absolute bottom-6 left-6 right-6 bg-slate-950 border border-slate-800 rounded-2xl p-4">
+
+            <p class="text-xs text-slate-500">
+                Organização
+            </p>
+
+            <p class="font-semibold mt-1">
+                {{ current_user.organizacao.nome }}
+            </p>
+
+            <p class="text-xs text-emerald-400 uppercase tracking-wide mt-2">
+                {{ current_user.role }}
+            </p>
+
+            <a href="{{ url_for('auth.logout') }}" class="text-sm text-red-400 mt-3 inline-block">
+                Sair
+            </a>
+
+        </div>
+
+    </aside>
+
+    <main class="ml-72 flex-1 p-10">
+
+        {% include 'partials/messages.html' ignore missing %}
+
+        {% block content %}{% endblock %}
+
+    </main>
+
+</div>
+
+{% else %}
+
+{% block auth_content %}{% endblock %}
+
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.glass-card {
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(51, 65, 85, 0.9);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
+.input-primary {
+    width: 100%;
+    border-radius: 0.9rem;
+    background: #1e293b;
+    border: 1px solid #334155;
+    padding: 0.85rem 1rem;
+    color: white;
+    outline: none;
+}
+
+.input-primary:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.16);
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.9rem;
+    background: linear-gradient(135deg, #10b981, #06b6d4);
+    padding: 0.85rem 1rem;
+    color: white;
+    font-weight: 800;
+    transition: 0.2s ease;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    border-radius: 0.8rem;
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    padding: 0.55rem 0.8rem;
+    font-weight: 700;
+}

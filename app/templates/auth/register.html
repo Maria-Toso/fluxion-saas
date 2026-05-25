@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Criar conta - Fluxion{% endblock %}
+
+{% block auth_content %}
+
+<div class="min-h-screen flex items-center justify-center px-6 bg-slate-950">
+
+    <div class="w-full max-w-lg glass-card rounded-3xl p-10">
+
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold tracking-tight">
+                Fluxion
+            </h1>
+
+            <p class="text-slate-400 mt-2">
+                Crie sua organização financeira.
+            </p>
+        </div>
+
+        {% include 'partials/messages.html' ignore missing %}
+
+        <form method="POST" class="space-y-4">
+            {{ form.hidden_tag() }}
+
+            {{ form.nome(class="input-primary", placeholder="Seu nome") }}
+
+            {{ form.empresa(class="input-primary", placeholder="Nome da empresa/organização") }}
+
+            {{ form.email(class="input-primary", placeholder="Email") }}
+
+            {{ form.senha(class="input-primary", placeholder="Senha com no mínimo 8 caracteres") }}
+
+            {{ form.submit(class="btn-primary w-full") }}
+        </form>
+
+        <p class="text-center text-slate-400 text-sm mt-6">
+            Já tem conta?
+            <a class="text-emerald-400 font-semibold" href="{{ url_for('auth.login') }}">
+                Entrar
+            </a>
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Relatórios - Fluxion{% endblock %}
+
+{% block content %}
+
+<div class="mb-10">
+    <h1 class="text-4xl font-extrabold">Relatórios</h1>
+    <p class="text-slate-400 mt-2">Visualize seus dados financeiros.</p>
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+    <div class="glass-card rounded-2xl p-6">
+        <h2 class="text-xl font-bold mb-5">Receitas vs Despesas</h2>
+        <canvas id="chartResumo"></canvas>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6">
+        <h2 class="text-xl font-bold mb-5">Valores por categoria</h2>
+        <canvas id="chartCategorias"></canvas>
+    </div>
+
+</div>
+
+<script>
+    const receitas = {{ receitas|tojson }};
+    const despesas = {{ despesas|tojson }};
+    const labelsCategoria = {{ labels_categoria|tojson }};
+    const valoresCategoria = {{ valores_categoria|tojson }};
+
+    new Chart(document.getElementById('chartResumo'), {
+        type: 'bar',
+        data: {
+            labels: ['Receitas', 'Despesas'],
+            datasets: [{
+                label: 'Valor em R$',
+                data: [receitas, despesas]
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('chartCategorias'), {
+        type: 'doughnut',
+        data: {
+            labels: labelsCategoria,
+            datasets: [{
+                label: 'Valor em R$',
+                data: valoresCategoria
+            }]
+        }
+    });
+</script>
+
+{% endblock %}

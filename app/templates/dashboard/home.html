@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Fluxion{% endblock %}
+
+{% block content %}
+
+<div class="flex items-start justify-between mb-10">
+    <div>
+        <h1 class="text-4xl font-extrabold">Dashboard</h1>
+        <p class="text-slate-400 mt-2">Visão executiva da organização {{ current_user.organizacao.nome }}.</p>
+    </div>
+
+    <a href="{{ url_for('transacoes.listar') }}" class="btn-primary">
+        Nova transação
+    </a>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
+
+    <div class="glass-card rounded-2xl p-6">
+        <p class="text-slate-400 text-sm">Saldo total</p>
+        <h2 class="text-3xl font-extrabold mt-2 text-emerald-400">R$ {{ "%.2f"|format(saldo) }}</h2>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6">
+        <p class="text-slate-400 text-sm">Receitas</p>
+        <h2 class="text-3xl font-extrabold mt-2">R$ {{ "%.2f"|format(receitas) }}</h2>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6">
+        <p class="text-slate-400 text-sm">Despesas</p>
+        <h2 class="text-3xl font-extrabold mt-2 text-red-400">R$ {{ "%.2f"|format(despesas) }}</h2>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6">
+        <p class="text-slate-400 text-sm">Metas</p>
+        <h2 class="text-3xl font-extrabold mt-2">{{ total_metas }}</h2>
+    </div>
+
+</div>
+
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+    <div class="xl:col-span-2 glass-card rounded-2xl p-6">
+        <h2 class="text-xl font-bold mb-5">Transações recentes</h2>
+
+        {% if recentes %}
+            <div class="overflow-hidden rounded-xl border border-slate-800">
+                <table class="w-full text-sm">
+                    <thead class="bg-slate-950 text-slate-400">
+                        <tr>
+                            <th class="text-left p-4">Título</th>
+                            <th class="text-left p-4">Tipo</th>
+                            <th class="text-left p-4">Data</th>
+                            <th class="text-right p-4">Valor</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-slate-800">
+                        {% for item in recentes %}
+                        <tr>
+                            <td class="p-4">{{ item.titulo }}</td>
+                            <td class="p-4">
+                                {% if item.tipo == 'receita' %}
+                                    <span class="text-emerald-400">Receita</span>
+                                {% else %}
+                                    <span class="text-red-400">Despesa</span>
+                                {% endif %}
+                            </td>
+                            <td class="p-4 text-slate-400">{{ item.data.strftime('%d/%m/%Y') }}</td>
+                            <td class="p-4 text-right font-semibold">R$ {{ "%.2f"|format(item.valor) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-slate-400">Nenhuma transação cadastrada ainda.</p>
+        {% endif %}
+    </div>
+
+    <div class="glass-card rounded-2xl p-6">
+        <h2 class="text-xl font-bold mb-5">Auditoria recente</h2>
+
+        {% if logs %}
+            <div class="space-y-4">
+                {% for log in logs %}
+                    <div class="border border-slate-800 rounded-xl p-4 bg-slate-950">
+                        <p class="font-semibold">{{ log.acao }}</p>
+                        <p class="text-sm text-slate-400 mt-1">{{ log.detalhes or 'Sem detalhes' }}</p>
+                        <p class="text-xs text-slate-500 mt-2">{{ log.criado_em.strftime('%d/%m/%Y %H:%M') }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-slate-400">Sem registros ainda.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}
