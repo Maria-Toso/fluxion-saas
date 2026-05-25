@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Fluxion SaaS
 
 Fluxion é um sistema financeiro em formato SaaS, feito com Flask, SQLAlchemy, Flask-Login, Flask-WTF, Flask-Limiter, TailwindCSS e Chart.js.
@@ -63,3 +64,6 @@ Este projeto já inclui boas práticas, mas nenhum app é "100% seguro". Antes d
 - revise permissões
 - monitore logs
 - faça auditoria externa
+=======
+# fluxion-saas
+>>>>>>> 66388ba1f05e11d4a753f732fd09aae067f7832a
