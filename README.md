@@ -63,4 +63,3 @@ Este projeto já inclui boas práticas, mas nenhum app é "100% seguro". Antes d
 - revise permissões
 - monitore logs
 - faça auditoria externa
-=======
